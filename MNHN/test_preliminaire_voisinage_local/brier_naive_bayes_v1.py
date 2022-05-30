@@ -152,7 +152,7 @@ if __name__ == '__main__':
 
     # A CALCULER UNE SEULE FOIS PAR CONTEXTE SOUHAITÉ
     #list_context = [(1, 0, 0, 0), (2, 0, 0, 0)]  # à définir en fonction des cubes disponibles
-    list_context = [(0, 0, 0, 0), (0, 1, 0, 0), (0, 2, 0, 0)]  # à définir en fonction des cubes disponibles
+    list_context = [(0, 0, 0, 0), (1, 0, 0, 0), (2, 0, 0, 0)]  # à définir en fonction des cubes disponibles
     #list_nb_example = [i for i in np.arange(500_000, 1_100_000, 100_000)]
     list_nb_example = [500_000]
 
@@ -173,21 +173,23 @@ if __name__ == '__main__':
         context_kl, context_kr, context_pl, context_pr = context
 
         list_score_brier_bayes_naif = []
+        list_nb_ex_real = []
 
         for nb_exemple_test in list_nb_example:
             selection_example.example_number_per_seed(path_dico_seed_normalised, nb_exemple_test, path_dico_exemple)
             list_example = selection_example.multi_random_example_selection(path_folder_seed, path_dico_exemple_complet, path_dico_seq, 
                                     context_kl, context_kr, context_pl, context_pr)
+            list_nb_ex_real.append(len(list_example))
             #print(list_example) 
             print("context :", context)
-            print("nombre d'exemples demandés:", nb_exemple_test )
+            print("nombre d'exemples demandés:", nb_exemple_test)
             score_brier_naive_bayes = naive_bayes_brier(list_example, context_kl, context_kr, context_pl, context_pr, path_cube_folder, path_blosum_proba, list_inclusion)
             list_score_brier_bayes_naif.append(score_brier_naive_bayes)
         print(list_score_brier_bayes_naif)
-        plt.scatter(list_nb_example, list_score_brier_bayes_naif, label = f"{context_kl}, {context_kr}, {context_pl}, {context_pr}", alpha = 0.75, s = 5)
-        plt.xlabel("Nombre d'exemples test")
+        plt.scatter(list_nb_ex_real, list_score_brier_bayes_naif, label = f"{context_kl}, {context_kr}, {context_pl}, {context_pr}", alpha = 1, s = 7)
+        plt.xlabel("Nombre exact d'exemples test")
         plt.ylabel('Brier Score')
         title = f"Score de Brier avec naive Bayes calculé sur {os.path.basename(path_folder_seed)}"
         plt.title(title)
         plt.legend()
-        plt.savefig(f"{path_image}/{title}.png")
+        plt.savefig(f"{path_image}/{title}_{list_context}.png")

@@ -19,4 +19,3 @@ path_folder_data_split = f"{result_folder}/Pfam_split"
 percentage_A = 90
 name_data_A, name_data_B = "seed_test_90", "seed_test_10"
 split.data_split(path_folder_data, path_folder_data_split, percentage_A, name_data_A, name_data_B)
-
