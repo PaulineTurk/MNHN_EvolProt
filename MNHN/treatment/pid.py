@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 
 import sys  
@@ -60,7 +61,8 @@ def save_pid(path_folder_fasta, path_folder_pid, list_inclusion):
     """
     t = Timer()
     t.start()
-
+    nb_files = len(os.listdir(path_folder_fasta))
+    file_counter = 0
     folder.creat_folder(path_folder_pid)
 
     files = Path(path_folder_fasta).iterdir()
@@ -68,5 +70,8 @@ def save_pid(path_folder_fasta, path_folder_pid, list_inclusion):
         accession_num = folder.get_accession_number(file)
         path_file_pid = f"{path_folder_pid}/{accession_num}.pid"
         pid_two_seq(file, path_file_pid, list_inclusion)
+        file_counter += 1
+        loading = 100*file_counter/nb_files
+        print(loading)
         
     t.stop("Compute and save the pid files")

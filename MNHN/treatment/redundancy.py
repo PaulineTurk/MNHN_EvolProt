@@ -1,5 +1,7 @@
 import sys  
 from pathlib import Path  
+import os
+
 file = Path(__file__). resolve()  
 package_root_directory_MNHN = file.parents [2]  # 0: meme niveau, 1: 1 niveau d'écart etc.
 sys.path.append(str(package_root_directory_MNHN))
@@ -130,6 +132,9 @@ def multi_non_redundancy_correction(path_folder_fasta, path_folder_fasta_non_red
     """
     t = Timer()
     t.start()
+    nb_files = len(os.listdir(path_folder_fasta))
+    file_counter = 0
+
     folder.creat_folder(path_folder_fasta_non_redondant)
     
     files = Path(path_folder_fasta).iterdir()
@@ -137,5 +142,7 @@ def multi_non_redundancy_correction(path_folder_fasta, path_folder_fasta_non_red
         accession_num = folder.get_accession_number(file)
         path_fasta_non_redondant = f"{path_folder_fasta_non_redondant}/{accession_num}.fasta.nonRedundant"
         non_redundancy_correction(file, path_fasta_non_redondant, list_residu, pid_sup)
+        file_counter += 1
+        loading = 100*file_counter/nb_files
+        print(loading)
     t.stop("Compute and save non-redundant files")
-
