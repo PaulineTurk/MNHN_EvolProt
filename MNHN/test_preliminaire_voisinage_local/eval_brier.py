@@ -36,7 +36,7 @@ def vecteur_from_cube(aa_1, contexte: list, list_cube: list, list_inclusion: lis
     """
     aa_1: acide amnié de départ
     contexte: liste des caractères d'une fraction de voisinage local
-    list_cube: list des cubes pré-calculés et pré-chargés nécessaires pour ce contexte
+    list_cube: list des cubes pré)calculés et pré-chargés nécessaires pour ce contexte
     """
     len_list_inclusion = len(list_inclusion)
     list_vect = [np.array(len_list_inclusion*[1])]
@@ -48,7 +48,7 @@ def vecteur_from_cube(aa_1, contexte: list, list_cube: list, list_inclusion: lis
             list_vect.append(np.array(vect))
 
     return list_vect
-    
+
 
 def unit_brier_naive_bayes(vect, aa_2, list_inclusion):
     """
@@ -134,7 +134,7 @@ def naive_bayes_brier(list_example, context_kl, context_kr, context_pl, context_
 
 if __name__ == '__main__':
     # selection des examples
-    path_folder_seed = "/Users/pauline/Desktop/Overfitting_test/test_1/PfamSplit_50/Pfam_B"                # chemin vers les seeds tests
+    path_folder_seed = "/Users/pauline/Desktop/Test_preliminaire/data_test_split/Pfam_split/seed_test_10"  # chemin vers les seeds tests
     path_folder_pid = "/Users/pauline/Desktop/Overfitting_test/PID_couple"   # chemin vers les pid de seeds
     pid_inf = 62
     list_residu = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", 
@@ -152,8 +152,10 @@ if __name__ == '__main__':
 
     # A CALCULER UNE SEULE FOIS PAR CONTEXTE SOUHAITÉ
     #list_context = [(1, 0, 0, 0), (2, 0, 0, 0)]  # à définir en fonction des cubes disponibles
-    list_context = [(0, 0, 0, 0), (1, 0, 0, 0), (2, 0, 0, 0)]  # à définir en fonction des cubes disponibles
-    list_nb_example = [i for i in np.arange(500_000, 1_100_000, 100_000)]
+    list_context = [(0, 0, 0, 0), (0, 1, 0, 0), (0, 2, 0, 0)]  # à définir en fonction des cubes disponibles
+    #list_nb_example = [i for i in np.arange(500_000, 1_100_000, 100_000)]
+    list_nb_example = [500_000]
+
 
     path_dico_seed_normalised = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seed/seed_normalised.npy"
     path_dico_exemple = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seed"

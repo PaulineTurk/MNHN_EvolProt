@@ -233,7 +233,7 @@ def random_example_selection(list_example, dico_seq, valid_interval, context_kl,
 
             list_example.append(example_selected)
             example_selected_count += 1
-            #print("example_selected_count:", example_selected_count)
+            print("example_selected_count:", example_selected_count)
 
     return list_example, example_selected_count
 

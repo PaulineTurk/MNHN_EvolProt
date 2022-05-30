@@ -1,17 +1,12 @@
 import sys  
 from pathlib import Path  
 file = Path(__file__).resolve()  
-package_root_directory_MNHN = file.parents[1]
+package_root_directory_MNHN = file.parents[2]
 sys.path.append(str(package_root_directory_MNHN))
 
 
 import MNHN.utils.folder as folder
-import MNHN.treatment.description as description
-import MNHN.treatment.stockholm as stockholm
-import MNHN.treatment.capitalizer as capitalizer
 import MNHN.treatment.split as split
-import MNHN.treatment.pid as pid
-import MNHN.treatment.redundancy as redundancy
 
 
 
@@ -24,3 +19,4 @@ path_folder_data_split = f"{result_folder}/Pfam_split"
 percentage_A = 90
 name_data_A, name_data_B = "seed_test_90", "seed_test_10"
 split.data_split(path_folder_data, path_folder_data_split, percentage_A, name_data_A, name_data_B)
+
