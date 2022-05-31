@@ -151,7 +151,7 @@ if __name__ == '__main__':
 
     # A CALCULER UNE SEULE FOIS PAR CONTEXTE SOUHAITÉ
     #list_context = [(1, 0, 0, 0), (2, 0, 0, 0)]  # à définir en fonction des cubes disponibles
-    list_context = [(0‚, 0, 0, 0)]  # à définir en fonction des cubes disponibles
+    list_context = [(0, 0, 0, 0)]  # à définir en fonction des cubes disponibles
     #list_nb_example = [i for i in np.arange(500_000, 1_100_000, 100_000)]
     list_nb_example = [1_000_000] # pour avoir tomber sur la valeur "moyenne"
 

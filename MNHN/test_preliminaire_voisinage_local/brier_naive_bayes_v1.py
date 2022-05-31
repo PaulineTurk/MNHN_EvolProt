@@ -81,6 +81,8 @@ def naive_bayes_brier(list_example, context_kl, context_kr, context_pl, context_
     list_cube_quarter_window_pl = cube_loader(context_pl, "p", "l", path_cube_folder)
     list_cube_quarter_window_pr = cube_loader(context_pr, "p", "r", path_cube_folder)
 
+    print(list_example)
+
     for example in list_example:
         total_list_vect = []
 
