@@ -38,6 +38,8 @@ def pid(seq_1, seq_2, list_inclusion):
 
 
 def pid_two_seq(path_fasta_file, path_file_pId, list_inclusion):  
+    t = Timer()
+    t.start()
     liste_seq = fastaReader.read_multi_fasta(path_fasta_file)
     pid_couple = {}
     nb_seq = len(liste_seq)
@@ -52,6 +54,7 @@ def pid_two_seq(path_fasta_file, path_file_pId, list_inclusion):
             pid_couple[liste_seq[j][0]][liste_seq[i][0]] = current_pid
 
     np.save(path_file_pId, pid_couple) 
+    t.stop("time pid")
 
 
 # def pid_two_seq(path_fasta_file, path_file_pId, list_inclusion):  

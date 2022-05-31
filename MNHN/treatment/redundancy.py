@@ -101,6 +101,8 @@ def non_redundancy_correction(path_file_fasta, path_file_seq_non_redundant, list
     """
     Rewrite the fasta file by correcting the issue of redundancy according to pid_sup.
     """
+    t = Timer()
+    t.start()
     seed = fastaReader.read_multi_fasta(path_file_fasta)
     cluster = clustering_non_redundant(seed, path_file_seq_non_redundant, list_residu, pid_sup)
     seq_non_redundant = cluster_representative(cluster)
@@ -116,6 +118,7 @@ def non_redundancy_correction(path_file_fasta, path_file_seq_non_redundant, list
                         flag_write = False
                 if flag_write == True:
                     file_corrected.write(line)
+    t.stop("time redundant")
 
 
 
