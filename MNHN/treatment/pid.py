@@ -54,6 +54,17 @@ def pid_two_seq(path_fasta_file, path_file_pId, list_inclusion):
     np.save(path_file_pId, pid_couple) 
 
 
+# def pid_two_seq(path_fasta_file, path_file_pId, list_inclusion):  
+#     liste_seq = fastaReader.read_multi_fasta(path_fasta_file)
+#     pid_couple = {}
+#     for name_1, seq_1 in liste_seq:
+#         pid_couple[name_1] = {}
+#         for name_2, seq_2 in liste_seq:
+#             pid_couple[name_1][name_2] = pid(seq_1, seq_2, list_inclusion)
+#     np.save(path_file_pId, pid_couple) 
+
+
+
 def save_pid(path_folder_fasta, path_folder_pid, list_inclusion):
     """
     For each fasta file in path_folder_fasta, compute the dictionary of pid 
@@ -61,17 +72,19 @@ def save_pid(path_folder_fasta, path_folder_pid, list_inclusion):
     """
     t = Timer()
     t.start()
-    nb_files = len(os.listdir(path_folder_fasta))
+    path, dirs, files = next(os.walk(path_folder_fasta))
+    nb_files = len(files)
+    #nb_files = len(os.listdir(path_folder_fasta))
     file_counter = 0
     folder.creat_folder(path_folder_pid)
 
     files = Path(path_folder_fasta).iterdir()
     for file in files:
+        file_counter += 1
         accession_num = folder.get_accession_number(file)
+        print(f"{100*file_counter/nb_files}, {accession_num}")
         path_file_pid = f"{path_folder_pid}/{accession_num}.pid"
         pid_two_seq(file, path_file_pid, list_inclusion)
-        file_counter += 1
-        loading = 100*file_counter/nb_files
-        print(loading)
+
         
     t.stop("Compute and save the pid files")

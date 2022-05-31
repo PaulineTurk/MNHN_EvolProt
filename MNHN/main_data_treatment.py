@@ -46,14 +46,14 @@ description.bar_plot_data_count(path_data, character_count, total_character , "C
 
 
 # Calcul des PID
-print("Calcul de PID")
+print("\nCalcul de PID")
 path_folder_fasta = path_data_corrected # upper correction only
 path_folder_pid = "/Users/pauline/Desktop/Test_preliminaire/PID"    # chemin à choisir
 list_inclusion = list_standard_aa
 pid.save_pid(path_folder_fasta, path_folder_pid, list_inclusion)
 
 # Clustering
-print("Clustering")
+print("\nClustering")
 path_folder_fasta = path_data_corrected # still upper correction only
 path_folder_fasta_nonRedondant = "/Users/pauline/Desktop/Test_preliminaire/Pfam_nonRedondant"  # chemin à choisir
 list_residu = list_standard_aa

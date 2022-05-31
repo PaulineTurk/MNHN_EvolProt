@@ -132,17 +132,19 @@ def multi_non_redundancy_correction(path_folder_fasta, path_folder_fasta_non_red
     """
     t = Timer()
     t.start()
-    nb_files = len(os.listdir(path_folder_fasta))
+    path, dirs, files = next(os.walk(path_folder_fasta))
+    nb_files = len(files)
+    #nb_files = len(os.listdir(path_folder_fasta))
     file_counter = 0
 
     folder.creat_folder(path_folder_fasta_non_redondant)
     
     files = Path(path_folder_fasta).iterdir()
     for file in files:
+        file_counter += 1
         accession_num = folder.get_accession_number(file)
+        print(f"{100*file_counter/nb_files}, {accession_num}")
         path_fasta_non_redondant = f"{path_folder_fasta_non_redondant}/{accession_num}.fasta.nonRedundant"
         non_redundancy_correction(file, path_fasta_non_redondant, list_residu, pid_sup)
-        file_counter += 1
-        loading = 100*file_counter/nb_files
-        print(loading)
+
     t.stop("Compute and save non-redundant files")
