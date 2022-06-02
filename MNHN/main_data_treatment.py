@@ -2,6 +2,7 @@ import sys
 from pathlib import Path  
 file = Path(__file__).resolve()  
 package_root_directory_MNHN = file.parents[1]
+package_root_directory = file.parents[2]
 sys.path.append(str(package_root_directory_MNHN))
 
 
@@ -18,12 +19,14 @@ import MNHN.treatment.redundancy as redundancy
 list_standard_aa = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", 
                     "L", "K", "M", "F", "P", "S", "T", "W", "Y", "V"]
 #path_file = "/Users/pauline/Desktop/Test_preliminaire/Pfam_Sample"  # fichier Stockholm téléchargé depuis Pfam
-path_file = "/Users/pauline/Desktop/DATA_MNHN/Pfam-A.seed"
-##path_folder_save = "/Users/pauline/Desktop/DATA_MNHN/Pfam_Stockholm" # chemin à choisir
+
+root_path = package_root_directory
+path_file = f"{root_path}/DATA_MNHN/Pfam-A.seed"
+##path_folder_save = f"{root_path}/DATA_MNHN/Pfam_Stockholm" # chemin à choisir
 ##stockholm.stockholm_separator(path_file, path_folder_save)
 ##path_folder_stockholm = path_folder_save
 
-##path_folder_fasta = "/Users/pauline/Desktop/DATA_MNHN/Pfam_Fasta"  # chemin à choisir
+##path_folder_fasta = f"{root_path}/DATA_MNHN/Pfam_Fasta"  # chemin à choisir
 ##stockholm.multi_stockholm_to_fasta(path_folder_stockholm, path_folder_fasta)
 ##path_data = path_folder_fasta
 ##print(f"\nVisualisation of {path_data}")
@@ -34,7 +37,8 @@ path_file = "/Users/pauline/Desktop/DATA_MNHN/Pfam-A.seed"
 
 
 # Capitalisation des caractères de Pfam
-path_data_corrected = "/Users/pauline/Desktop/DATA_MNHN/Pfam_Upper"  # chemin à choisir
+path_data_corrected = f"{root_path}/DATA_MNHN/Pfam_Upper"  # chemin à choisir
+print(path_data_corrected)
 ##capitalizer.multi_capitalization(path_data, path_data_corrected)
 ##path_data = path_data_corrected
 ##print(f"\nVisualisation of {path_data}")
@@ -47,14 +51,14 @@ list_residu = list_standard_aa
 # Calcul des PID
 ##print("\nCalcul de PID")
 ##path_folder_fasta = path_data_corrected # upper correction only
-##path_folder_pid = "/Users/pauline/Desktop/DATA_MNHN/PID"    # chemin à choisir
+##path_folder_pid = f"{root_path}/DATA_MNHN/PID"    # chemin à choisir
 ##list_inclusion = list_standard_aa
 ##pid.save_pid(path_folder_fasta, path_folder_pid, list_inclusion)
 
 # Clustering
 print("\nClustering")
 path_folder_fasta = path_data_corrected # still upper correction only
-path_folder_fasta_nonRedondant = "/Users/pauline/Desktop/DATA_MNHN/Pfam_nonRedondant"  # chemin à choisir
+path_folder_fasta_nonRedondant = f"{root_path}/DATA_MNHN/Pfam_nonRedondant"  # chemin à choisir
 list_residu = list_standard_aa
 redundancy.multi_non_redundancy_correction(path_folder_fasta, path_folder_fasta_nonRedondant, list_residu, pid_sup = 99)
 residu_count, total_residu, character_count, total_character = description.data_count(path_folder_fasta_nonRedondant, list_residu)
@@ -63,7 +67,7 @@ description.bar_plot_data_count(path_folder_fasta_nonRedondant, character_count,
 
 # Split des seeds en seed train et seed test (50%/50% de Pfam) 
 path_folder_data = path_folder_fasta_nonRedondant      # redondant corrected
-result_folder = "/Users/pauline/Desktop/DATA_MNHN/data_Result"   # chemin à choisir
+result_folder = f"{root_path}/DATA_MNHN/data_Result"   # chemin à choisir
 folder.creat_folder(result_folder)
 path_folder_data_split = f"{result_folder}/Pfam_split" 
 percentage_A = 50
