@@ -19,37 +19,37 @@ list_standard_aa = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I",
                     "L", "K", "M", "F", "P", "S", "T", "W", "Y", "V"]
 #path_file = "/Users/pauline/Desktop/Test_preliminaire/Pfam_Sample"  # fichier Stockholm téléchargé depuis Pfam
 path_file = "/Users/pauline/Desktop/DATA_MNHN/Pfam-A.seed"
-path_folder_save = "/Users/pauline/Desktop/DATA_MNHN/Pfam_Stockholm" # chemin à choisir
-stockholm.stockholm_separator(path_file, path_folder_save)
-path_folder_stockholm = path_folder_save
+##path_folder_save = "/Users/pauline/Desktop/DATA_MNHN/Pfam_Stockholm" # chemin à choisir
+##stockholm.stockholm_separator(path_file, path_folder_save)
+##path_folder_stockholm = path_folder_save
 
-path_folder_fasta = "/Users/pauline/Desktop/DATA_MNHN/Pfam_Fasta"  # chemin à choisir
-stockholm.multi_stockholm_to_fasta(path_folder_stockholm, path_folder_fasta)
-path_data = path_folder_fasta
-print(f"\nVisualisation of {path_data}")
-list_residu = list_standard_aa
-residu_count, total_residu, character_count, total_character = description.data_count(path_data, list_residu)
-description.bar_plot_data_count(path_data, residu_count, total_residu, "Standard amino-acid")
-description.bar_plot_data_count(path_data, character_count, total_character , "Character")
+##path_folder_fasta = "/Users/pauline/Desktop/DATA_MNHN/Pfam_Fasta"  # chemin à choisir
+##stockholm.multi_stockholm_to_fasta(path_folder_stockholm, path_folder_fasta)
+##path_data = path_folder_fasta
+##print(f"\nVisualisation of {path_data}")
+##list_residu = list_standard_aa
+##residu_count, total_residu, character_count, total_character = description.data_count(path_data, list_residu)
+##description.bar_plot_data_count(path_data, residu_count, total_residu, "Standard amino-acid")
+##description.bar_plot_data_count(path_data, character_count, total_character , "Character")
 
 
 # Capitalisation des caractères de Pfam
 path_data_corrected = "/Users/pauline/Desktop/DATA_MNHN/Pfam_Upper"  # chemin à choisir
-capitalizer.multi_capitalization(path_data, path_data_corrected)
-path_data = path_data_corrected
-print(f"\nVisualisation of {path_data}")
+##capitalizer.multi_capitalization(path_data, path_data_corrected)
+##path_data = path_data_corrected
+##print(f"\nVisualisation of {path_data}")
 list_residu = list_standard_aa
-residu_count, total_residu, character_count, total_character = description.data_count(path_data, list_residu)
-description.bar_plot_data_count(path_data, residu_count, total_residu, "Standard amino-acid")
-description.bar_plot_data_count(path_data, character_count, total_character , "Character")
+##residu_count, total_residu, character_count, total_character = description.data_count(path_data, list_residu)
+##description.bar_plot_data_count(path_data, residu_count, total_residu, "Standard amino-acid")
+##description.bar_plot_data_count(path_data, character_count, total_character , "Character")
 
 
 # Calcul des PID
-print("\nCalcul de PID")
-path_folder_fasta = path_data_corrected # upper correction only
-path_folder_pid = "/Users/pauline/Desktop/DATA_MNHN/PID"    # chemin à choisir
-list_inclusion = list_standard_aa
-pid.save_pid(path_folder_fasta, path_folder_pid, list_inclusion)
+##print("\nCalcul de PID")
+##path_folder_fasta = path_data_corrected # upper correction only
+##path_folder_pid = "/Users/pauline/Desktop/DATA_MNHN/PID"    # chemin à choisir
+##list_inclusion = list_standard_aa
+##pid.save_pid(path_folder_fasta, path_folder_pid, list_inclusion)
 
 # Clustering
 print("\nClustering")
