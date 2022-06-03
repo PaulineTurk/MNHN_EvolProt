@@ -2,7 +2,6 @@ import pandas as pd
 from math import log2
 import numpy as np
 import os 
-from math import sqrt
 import blosum as bl
 import seaborn as sb
 import matplotlib.pyplot as plt
@@ -35,7 +34,7 @@ def count_for_blosum(num_accession, path_folder_pid, seed, pid_inf,
     list_residu: list of valid amino acids
     """
 
-    pid_couple = np.load(f"{path_folder_pid}/{num_accession}.pId.npy", allow_pickle='TRUE').item()
+    pid_couple = np.load(f"{path_folder_pid}/{num_accession}.pid.npy", allow_pickle='TRUE').item()
     nb_seq = len(seed)
     for i in range(nb_seq):
         name_1, seq_1 = seed[i]
@@ -82,11 +81,17 @@ def multi_count_for_blosum(path_folder_fasta, path_folder_pid, list_residu, pid_
             count_coupleAA[aa_1][aa_2] = 0
     nb_coupleAA = 0
 
+    path, dirs, files = next(os.walk(path_folder_fasta))
+    nb_files = len(files)
+    file_counter = 0
+
     # files to use in order to evaluate Blosum
     files = Path(path_folder_fasta).iterdir()
 
     for file in files:
+        file_counter += 1
         accession_num = folder.get_accession_number(file)
+        print(f"{100*file_counter/nb_files}, {accession_num}")
         seed_train = fastaReader.read_multi_fasta(file)
         count_AA, nb_AA, count_coupleAA, nb_coupleAA = count_for_blosum(accession_num, path_folder_pid, seed_train, pid_inf,
                                                                         count_AA, nb_AA, count_coupleAA, nb_coupleAA, list_residu)
@@ -185,32 +190,53 @@ def blosum_heatmap(matrix, path_folder_Result, title, size_annot = 3):
     """
     Save the heatmap of the matrix in path_folder_Result
     """
-    heatmap_matrix = np.transpose(pd.DataFrame(matrix).T.fillna(0))
+    #heatmap_matrix = pd.DataFrame(matrix).T.fillna(0)
+    heatmap_matrix = np.transpose(pd.DataFrame.from_dict(matrix))
     heatmap = sb.heatmap(heatmap_matrix, annot = True, annot_kws = {"size": size_annot}, fmt = '.2g')
     plt.yticks(rotation=0) 
     heatmap_figure = heatmap.get_figure()    
-    plt.title(title)
+    plt.title(title, loc='center', wrap=True)
+    #plt.title(title)
     plt.close()
     path_save_fig = f"{path_folder_Result}/{title}.png"
     heatmap_figure.savefig(path_save_fig, dpi=400)
 
 
-def blosum_visualisation(blosum):
+# def blosum_visualisation(blosum):
+#     """
+#     Visualisation of the matrix
+#     """
+#     df_blosum = pd.DataFrame.from_dict(blosum)
+#     print(df_blosum)
+
+#     return df_blosum
+
+def blosum_visualisation_transposition(blosum):
     """
     Visualisation of the matrix
     """
-    df_blosum = np.transpose(pd.DataFrame.from_dict(blosum))  
+    print("with transposition")
+    df_blosum = np.transpose(pd.DataFrame.from_dict(blosum))
     print(df_blosum)
 
     return df_blosum
 
+# def sum_line(blosum):
+#     """
+#     To check that the sum of a line is equal to one 
+#     for the conditional probability matrix
+#     """
+#     df_blosum = pd.DataFrame.from_dict(blosum)
+#     sum_line = df_blosum.sum(axis=1)
+#     print("Sum of the line:\n", sum_line)
 
-def sum_line(blosum):
+def sum_line_transposition(blosum):
     """
     To check that the sum of a line is equal to one 
     for the conditional probability matrix
     """
-    df_blosum = np.transpose(pd.DataFrame.from_dict(blosum)) 
+    print("with transposition")
+    df_blosum = np.transpose(pd.DataFrame.from_dict(blosum))
     sum_line = df_blosum.sum(axis=1)
     print("Sum of the line:\n", sum_line)
 

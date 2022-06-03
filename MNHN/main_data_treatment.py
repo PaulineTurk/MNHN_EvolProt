@@ -2,7 +2,7 @@ import sys
 from pathlib import Path  
 file = Path(__file__).resolve()  
 package_root_directory_MNHN = file.parents[1]
-package_root_directory = file.parents[2]
+root_path = file.parents[2]
 sys.path.append(str(package_root_directory_MNHN))
 
 
@@ -20,7 +20,6 @@ list_standard_aa = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I",
                     "L", "K", "M", "F", "P", "S", "T", "W", "Y", "V"]
 #path_file = "/Users/pauline/Desktop/Test_preliminaire/Pfam_Sample"  # fichier Stockholm téléchargé depuis Pfam
 
-root_path = package_root_directory
 path_file = f"{root_path}/DATA_MNHN/Pfam-A.seed"
 ##path_folder_save = f"{root_path}/DATA_MNHN/Pfam_Stockholm" # chemin à choisir
 ##stockholm.stockholm_separator(path_file, path_folder_save)
