@@ -134,7 +134,7 @@ def naive_bayes_brier(list_example, context_kl, context_kr, context_pl, context_
 
 if __name__ == '__main__':
     # selection des examples
-    path_folder_seed = "/Users/pauline/Desktop/Overfitting_test/test_1/PfamSplit_50/Pfam_B"                # chemin vers les seeds tests
+    path_folder_seed = "/Users/pauline/Desktop/Overfitting_test/test_1/PfamSplit_50/Pfam_B"     # chemin vers les seeds tests
     path_folder_pid = "/Users/pauline/Desktop/Overfitting_test/PID_couple"   # chemin vers les pid de seeds
     pid_inf = 62
     list_residu = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", 
