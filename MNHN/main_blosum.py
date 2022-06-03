@@ -17,10 +17,12 @@ path_folder_pid = f"{root_path}/DATA_MNHN/PID"
 list_residu = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", 
                "L", "K", "M", "F", "P", "S", "T", "W", "Y", "V"]
 
+# count_AA, nb_AA, count_coupleAA, nb_coupleAA = blosumfonction.multi_count_for_blosum(path_folder_fasta, path_folder_pid, 
+                                                                                    #  list_residu, pid_inf = 62)
 count_AA, nb_AA, count_coupleAA, nb_coupleAA = blosumfonction.multi_count_for_blosum(path_folder_fasta, path_folder_pid, 
-                                                                                     list_residu, pid_inf = 62)
+                                                                                     list_residu, pid_inf = 30)
 
-path_non_contextual_result = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/Context_Free"  # chemin à choisir
+path_non_contextual_result = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/Context_Free_Pfam_train_pid_30"  # chemin à choisir
 path_folder_Result = folder.creat_folder(path_non_contextual_result)
 freq_AA, freq_coupleAA = blosumfonction.freq_for_blosum(count_AA, nb_AA, count_coupleAA, nb_coupleAA, path_folder_Result)
 
@@ -34,7 +36,9 @@ title_heatmap = f"Heatmap of the Blosum variant computed on {name_folder_fasta}"
 blosumfonction.blosum_heatmap(blosum, path_folder_Result, title_heatmap, size_annot = 5)
 
 # Différence entre ma variante de blosum et une blosum de référence
-matrix_diff, pid_inf_ref, average_diff = blosumfonction.blosum_difference(blosum, pid_inf_ref = 62)
+# matrix_diff, pid_inf_ref, average_diff = blosumfonction.blosum_difference(blosum, pid_inf_ref = 62)
+matrix_diff, pid_inf_ref, average_diff = blosumfonction.blosum_difference(blosum, pid_inf_ref = 30)
+
 title_heatmap = f"Heatmap of the difference in Score between Blosum({name_folder_fasta}) and Blosum{pid_inf_ref}Ref\nThe mean difference is {average_diff}"
 blosumfonction.blosum_heatmap(matrix_diff, path_folder_Result, title_heatmap, size_annot = 5)
 
