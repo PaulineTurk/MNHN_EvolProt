@@ -38,7 +38,7 @@ def triplet_count_for_cube_initialisation(list_residu):
 
     
 
-def triplet_count_for_cube(file_fasta, path_folder_pid, triplet_count, delay_num, kp_SeqChoice, list_residu, pid_inf):    
+def triplet_count_for_cube(file_fasta, path_folder_pid, triplet_count, delay_num, kp_SeqChoice, list_residu, accession_num, pid_inf):    
     """
     Count the valid triplets of amino acid in a seed.
 
@@ -52,8 +52,7 @@ def triplet_count_for_cube(file_fasta, path_folder_pid, triplet_count, delay_num
     # p: predict
     # c: context
     # kp_SeqChoice: choice the reference sequence to look at its neighbors
-    accession_num = folder.get_accession_number(file_fasta)
-    pid_couple = np.load(f"{path_folder_pid}/{accession_num}.pId.npy", allow_pickle='TRUE').item()    
+    pid_couple = np.load(f"{path_folder_pid}/{accession_num}.pid.npy", allow_pickle='TRUE').item()    
     seed = fastaReader.read_multi_fasta(file_fasta)
     len_seq = len(seed[0][1])
 
@@ -145,11 +144,18 @@ def multi_triplet_count_for_cube(path_folder_fasta, path_folder_pid, delay_num, 
 
     triplet_count = triplet_count_for_cube_initialisation(list_residu)
 
+    path, dirs, files = next(os.walk(path_folder_fasta))
+    nb_files = len(files)
+    file_counter = 0
+
     files = Path(path_folder_fasta).iterdir()
     name_folder_fasta = os.path.basename(path_folder_fasta)
 
     for file in files:
-            triplet_count = triplet_count_for_cube(file, path_folder_pid, triplet_count, delay_num, kp_SeqChoice, list_residu, pid_inf)
+        file_counter += 1
+        accession_num = folder.get_accession_number(file)
+        print(f"{100*file_counter/nb_files}, {accession_num}")
+        triplet_count = triplet_count_for_cube(file, path_folder_pid, triplet_count, delay_num, kp_SeqChoice, list_residu, accession_num, pid_inf)
 
     t.stop("Compute the valid triplets count")
 
@@ -161,7 +167,7 @@ def cube(triplet_count, name_folder_fasta, path_NeighborRes, delay_num, kp_SeqCh
     t.start()
     print(f"Conditional probability cube: {delay_num},{kp_SeqChoice}")
     cond_proba = triplet_conditional_proba(list_residu, triplet_count)
-    path_proba_cond = f"{path_NeighborRes}/proba_cond_({str(delay_num)},{kp_SeqChoice})_{name_folder_fasta}"
+    path_proba_cond = f"{path_NeighborRes}/proba_cond_({str(delay_num)},{kp_SeqChoice})"
     np.save(path_proba_cond, cond_proba) 
     path_proba_cond = f"{path_proba_cond}.npy"
     t.stop("Compute a cube i.e the conditional probability matrix with 1 neighbour")
