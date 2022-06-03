@@ -19,7 +19,7 @@ import MNHN.utils.folder as folder
 
 
 def count_for_blosum(num_accession, path_folder_pid, seed, pid_inf,  
-                count_AA, nb_AA, count_coupleAA, nb_coupleAA, list_residu):   
+                     count_AA, nb_AA, count_coupleAA, nb_coupleAA, list_residu):   
     """
     In the seed with id num_accession, count the number of each valid amino acid 
     and the number of valid couple
@@ -79,23 +79,21 @@ def multi_count_for_blosum(path_folder_fasta, path_folder_pid, list_residu, pid_
     for aa_1 in list_residu:
         count_coupleAA[aa_1] = {}
         for aa_2 in list_residu:
-                count_coupleAA[aa_1][aa_2] = 0
+            count_coupleAA[aa_1][aa_2] = 0
     nb_coupleAA = 0
 
     # files to use in order to evaluate Blosum
     files = Path(path_folder_fasta).iterdir()
 
     for file in files:
-            accession_num = folder.get_accession_number(file)
-            seed_train = fastaReader.read_multi_fasta(file)
-            count_AA, nb_AA, count_coupleAA, nb_coupleAA = count_for_blosum(accession_num, path_folder_pid, seed_train, pid_inf,
-                                                                            count_AA, nb_AA, count_coupleAA, nb_coupleAA, list_residu)
+        accession_num = folder.get_accession_number(file)
+        seed_train = fastaReader.read_multi_fasta(file)
+        count_AA, nb_AA, count_coupleAA, nb_coupleAA = count_for_blosum(accession_num, path_folder_pid, seed_train, pid_inf,
+                                                                        count_AA, nb_AA, count_coupleAA, nb_coupleAA, list_residu)
 
     t.stop("Compute the count of amino acid and couple of amino acids")
 
     return count_AA, nb_AA, count_coupleAA, nb_coupleAA
-
-
 
 
 def freq_for_blosum(count_AA, nb_AA, count_coupleAA, nb_coupleAA, path_folder_Result):
@@ -134,9 +132,6 @@ def freq_for_blosum(count_AA, nb_AA, count_coupleAA, nb_coupleAA, path_folder_Re
     return freq_AA, freq_coupleAA
 
 
-
-
-
 def blosum_score(freq_AA, freq_coupleAA, path_folder_Result, scale_factor = 2):
     """
     Compute and save the Blosum matrix 
@@ -158,8 +153,8 @@ def blosum_score(freq_AA, freq_coupleAA, path_folder_Result, scale_factor = 2):
 
     path_matrix = f"{path_folder_Result}/Blosum_score"
     np.save(path_matrix, blosum) 
-    return blosum
 
+    return blosum
 
 
 def blosum_conditional_proba(freq_AA, freq_coupleAA, path_folder_Result):
@@ -182,15 +177,15 @@ def blosum_conditional_proba(freq_AA, freq_coupleAA, path_folder_Result):
 
     path_cond_proba = f"{path_folder_Result}/Blosum_proba_cond"
     np.save(path_cond_proba, cond_proba)
-    return cond_proba
 
+    return cond_proba
 
 
 def blosum_heatmap(matrix, path_folder_Result, title, size_annot = 3):
     """
     Save the heatmap of the matrix in path_folder_Result
     """
-    heatmap_matrix = pd.DataFrame(matrix).T.fillna(0)  # à transposer?
+    heatmap_matrix = np.transpose(pd.DataFrame(matrix).T.fillna(0))
     heatmap = sb.heatmap(heatmap_matrix, annot = True, annot_kws = {"size": size_annot}, fmt = '.2g')
     plt.yticks(rotation=0) 
     heatmap_figure = heatmap.get_figure()    
@@ -206,20 +201,18 @@ def blosum_visualisation(blosum):
     """
     df_blosum = np.transpose(pd.DataFrame.from_dict(blosum))  
     print(df_blosum)
-    return df_blosum
 
+    return df_blosum
 
 
 def sum_line(blosum):
     """
-    To check that the somme of the line is equal to one 
+    To check that the sum of a line is equal to one 
     for the conditional probability matrix
     """
     df_blosum = np.transpose(pd.DataFrame.from_dict(blosum)) 
     sum_line = df_blosum.sum(axis=1)
     print("Sum of the line:\n", sum_line)
-
-
 
 
 def blosum_difference(blosum, pid_inf_ref = 62):
@@ -234,20 +227,16 @@ def blosum_difference(blosum, pid_inf_ref = 62):
 
     # initialisation
     matrix_diff = {}
-    average_diff = 0
+    difference = 0
     count = 0
-    euclidean_d = 0
 
     # evaluation of the differences
     for aa1 in list_residu:
         matrix_diff[aa1] = {}
         for aa2 in list_residu:
             matrix_diff[aa1][aa2] = int(blosum[aa1][aa2] - blosum_ref[aa1 + aa2])
-            average_diff += matrix_diff[aa1][aa2]
-            euclidean_d += (matrix_diff[aa1][aa2])**2
+            difference += matrix_diff[aa1][aa2]
             count += 1
+    average_difference  = round(difference/count, 2)
 
-    average_euclidean_d = round(sqrt(euclidean_d/count), 2)
-    average_diff = round(average_diff/count, 2)
-
-    return matrix_diff, pid_inf_ref, average_euclidean_d, average_diff 
+    return matrix_diff, pid_inf_ref, average_difference
