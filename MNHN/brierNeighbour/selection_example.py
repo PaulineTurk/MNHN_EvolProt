@@ -9,6 +9,7 @@ import sys
 from pathlib import Path  
 file = Path(__file__). resolve()  
 package_root_directory_MNHN = file.parents [2]
+root_path =  file.parents [3]
 sys.path.append(str(package_root_directory_MNHN))
 
 import MNHN.utils.fastaReader as fastaReader 
@@ -94,7 +95,7 @@ def multi_seeds_selection(path_folder_seed, path_folder_pid, pid_inf, list_resid
     files = Path(path_folder_seed).iterdir()
     for file in files:
         accession_num =  folder.get_accession_number(file)
-        pid = np.load(f"{path_folder_pid}/{accession_num}.pId.npy", allow_pickle='TRUE').item()
+        pid = np.load(f"{path_folder_pid}/{accession_num}.pid.npy", allow_pickle='TRUE').item()
         seed = fastaReader.read_multi_fasta(file)
 
         dico_seed, nb_non_info_seed, nb_valid_aa_couple_global, dico_seq = one_seed_selection(accession_num, seed, pid, pid_inf, nb_non_info_seed, 
@@ -291,30 +292,31 @@ def multi_random_example_selection(path_folder_seed, path_dico_exemple_complet, 
 
 if __name__ == '__main__':
 
-    path_folder_seed = "/Users/pauline/Desktop/coupleSeqTest"                # chemin vers les seeds tests
-    path_folder_pid = "/Users/pauline/Desktop/Overfitting_test/PID_couple"   # chemin vers les pid de seeds
+    path_folder_seed =  f"{root_path}/DATA_MNHN/data_Result/Pfam_split/Pfam_train_test_preliminaire"   # chemin vers les seeds tests
+    path_folder_pid = f"{root_path}/DATA_MNHN/PID"    # chemin vers les pid de seeds
     pid_inf = 62
     list_residu = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", 
                    "L", "K", "M", "F", "P", "S", "T", "W", "Y", "V"]
-    
-    # /Users/pauline/Desktop/data_Result/selection_test_brier_voisin  # dossier à crééer avant de faire n'importe quel test
-    path_folder_dico_seq = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seq" # chemin ou on veut enregistrer les dico_seq
-    path_file_dico_seed = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seed" # chemin ou on veut enregistrer les dico_seed
+
+    # /Users/pauline/Desktop/data_Result/test_selection_examples # dossier à crééer avant de faire n'importe quel test
+    new_file_dico = "test_selection_examples"    
+    path_folder_dico_seq = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seq" # chemin ou on veut enregistrer les dico_seq
+    path_file_dico_seed = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seed" # chemin ou on veut enregistrer les dico_seed
 
     # # calcul du dico_seed et des dico_seq (1 par seed informatif) A CALCULER QU UNE SEULE FOIS POUR TOUS LES TESTS FUTUR, SUR LA FRACTION
     # DE PFAM D'INTERET
-    #multi_seeds_selection(path_folder_seed, path_folder_pid, pid_inf, list_residu, path_folder_dico_seq, path_file_dico_seed)
+    multi_seeds_selection(path_folder_seed, path_folder_pid, pid_inf, list_residu, path_folder_dico_seq, path_file_dico_seed)
 
 
 
     # A CALCULER UNE SEULE FOIS PAR CONTEXTE SOUHAITÉ
-    path_dico_seed_normalised = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seed/seed_normalised.npy"
+    path_dico_seed_normalised = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seed/seed_normalised.npy"
     nb_exemple_test = 10
-    path_dico_exemple = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seed"
+    path_dico_exemple = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seed"
     example_number_per_seed(path_dico_seed_normalised, nb_exemple_test, path_dico_exemple)
 
-    path_dico_seq = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seq"
-    path_dico_exemple_complet = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seed/exemple_seed.npy"
+    path_dico_seq = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seq"
+    path_dico_exemple_complet = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seed/exemple_seed.npy"
     context_kl, context_kr, context_pl, context_pr = 2, 3, 1, 5
 
     list_example = multi_random_example_selection(path_folder_seed, path_dico_exemple_complet, path_dico_seq, 

@@ -6,6 +6,7 @@ import sys
 from pathlib import Path  
 file = Path(__file__). resolve()  
 package_root_directory_MNHN = file.parents [2]
+root_path = file.parents[3]
 sys.path.append(str(package_root_directory_MNHN))
 
 import MNHN.brierNeighbour.selection_example as selection_example
@@ -81,7 +82,7 @@ def naive_bayes_brier(list_example, context_kl, context_kr, context_pl, context_
     list_cube_quarter_window_pl = cube_loader(context_pl, "p", "l", path_cube_folder)
     list_cube_quarter_window_pr = cube_loader(context_pr, "p", "r", path_cube_folder)
 
-    print(list_example)
+    # print(list_example)
 
     for example in list_example:
         total_list_vect = []
@@ -136,15 +137,16 @@ def naive_bayes_brier(list_example, context_kl, context_kr, context_pl, context_
 
 if __name__ == '__main__':
     # selection des examples
-    path_folder_seed = "/Users/pauline/Desktop/Test_preliminaire/data_test_split/Pfam_split/seed_test_10"  # chemin vers les seeds tests
-    path_folder_pid = "/Users/pauline/Desktop/Overfitting_test/PID_couple"   # chemin vers les pid de seeds
+    path_folder_seed = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/Pfam_test"   # chemin vers les seeds tests
+    path_folder_pid = f"{root_path}/DATA_MNHN/PID"  # chemin vers les pid de seeds
     pid_inf = 62
     list_residu = ["A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", 
                    "L", "K", "M", "F", "P", "S", "T", "W", "Y", "V"]
     
-    # /Users/pauline/Desktop/data_Result/selection_test_brier_voisin  # dossier à crééer avant de faire n'importe quel test
-    path_folder_dico_seq = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seq" # chemin ou on veut enregistrer les dico_seq
-    path_file_dico_seed = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seed" # chemin ou on veut enregistrer les dico_seed
+    # f"{root_path}/data_Result/Pfam_split/selection_test_brier_voisin_test_prelim"  # dossier à crééer avant de faire n'importe quel test
+    new_file_dico = "test_brier_bayes_naif_10_millions"
+    path_folder_dico_seq = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seq" # chemin ou on veut enregistrer les dico_seq
+    path_file_dico_seed = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seed" # chemin ou on veut enregistrer les dico_seed
 
     # # calcul du dico_seed et des dico_seq (1 par seed informatif) A CALCULER QU UNE SEULE FOIS POUR TOUS LES TESTS FUTUR, SUR LA FRACTION
     # DE PFAM D'INTERET
@@ -153,23 +155,29 @@ if __name__ == '__main__':
 
 
     # A CALCULER UNE SEULE FOIS PAR CONTEXTE SOUHAITÉ
-    #list_context = [(1, 0, 0, 0), (2, 0, 0, 0)]  # à définir en fonction des cubes disponibles
-    list_context = [(0, 0, 0, 0), (1, 0, 0, 0), (2, 0, 0, 0)]  # à définir en fonction des cubes disponibles
-    #list_nb_example = [i for i in np.arange(500_000, 1_100_000, 100_000)]
-    list_nb_example = [500_000]
+    #list_context = [(0, 0, 0, 0), (1, 0, 0, 0)]  # à définir en fonction des cubes disponibles
+    # list_context = [(0, 0, 0, 0), (0, 0, 0, 0), 
+    #                 (1, 0, 0, 0), (1, 0, 0, 0), 
+    #                 (0, 1, 0, 0), (0, 1, 0, 0), 
+    #                 (0, 0, 1, 0), (0, 0, 1, 0), 
+    #                 (0, 0, 0, 1), (0, 0, 0, 1)] 
+
+    list_context = [(0, 0, 0, 0)]
+    list_nb_example = [i for i in np.arange(10_000, 1_010_000, 10_000)]
+    #list_nb_example = [10_000_000]
 
 
-    path_dico_seed_normalised = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seed/seed_normalised.npy"
-    path_dico_exemple = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seed"
+    path_dico_seed_normalised = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seed/seed_normalised.npy"
+    path_dico_exemple = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seed"
 
-    path_dico_seq = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seq"
-    path_dico_exemple_complet = "/Users/pauline/Desktop/data_Result/selection_test_brier_voisin/seed/exemple_seed.npy"
+    path_dico_seq = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seq"
+    path_dico_exemple_complet = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}/seed/exemple_seed.npy"
 
-    path_cube_folder = "/Users/pauline/Desktop/cube_test"
-    path_blosum_proba = "/Users/pauline/Desktop/Overfitting_test/test_1/BlosumRes/BlosumRes_50_A/Blosum_proba_cond.npy"
+    path_cube_folder = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/CUBE"
+    path_blosum_proba = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/Context_Free_Pfam_train/Blosum_proba_cond.npy"
     list_inclusion = list_residu
 
-    path_image = "/Users/pauline/Desktop/data_Result"  # ou sauvegarder les graphes en sortie
+    path_image = f"{root_path}/DATA_MNHN/data_Result/Pfam_split/{new_file_dico}"  # ou sauvegarder les graphes en sortie
 
     for context in list_context:
         context_kl, context_kr, context_pl, context_pr = context

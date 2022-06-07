@@ -60,7 +60,7 @@ def count_for_blosum(num_accession, path_folder_pid, seed, pid_inf,
     return count_AA, nb_AA, count_coupleAA, nb_coupleAA
 
 
-def multi_count_for_blosum(path_folder_fasta, path_folder_pid, list_residu, pid_inf = 62):
+def multi_count_for_blosum(path_folder_fasta, path_folder_pid, list_residu, pid_inf):
     """
     Iterate count_for_blosum on the files included in path_folder_fasta.
     """
@@ -241,7 +241,7 @@ def sum_line_transposition(blosum):
     print("Sum of the line:\n", sum_line)
 
 
-def blosum_difference(blosum, pid_inf_ref = 62):
+def blosum_difference(blosum, pid_inf_ref):
     """
     Quantify the distance between the blosum computed and a blosum of reference
     """
