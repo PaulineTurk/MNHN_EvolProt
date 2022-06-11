@@ -229,8 +229,12 @@ def random_example_selection(list_example, dico_seq, valid_interval, context_kl,
             position_selected = random.choice(final_list_valid_position)
             
             # récupérer le couple et son voisinage et le mettre dans un liste de tuples
-            example_selected = (seq_1[position_selected], seq_2[position_selected], seq_1[position_selected-context_kl: position_selected], 
-                        seq_1[position_selected: position_selected+context_kr], seq_2[position_selected-context_pl: position_selected], seq_2[position_selected: position_selected+context_pr]) 
+            example_selected = (seq_1[position_selected],                                           # aa1
+                                seq_2[position_selected],                                           # aa2
+                                seq_1[position_selected-context_kl: position_selected][::-1],       # aac kl
+                                seq_1[position_selected + 1 : position_selected + 1 + context_kr],  # aac kr
+                                seq_2[position_selected-context_pl: position_selected][::-1],       # aac pl
+                                seq_2[position_selected + 1 : position_selected + 1 + context_pr])  # aac pr
 
             list_example.append(example_selected)
             example_selected_count += 1
